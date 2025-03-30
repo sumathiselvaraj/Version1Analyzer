@@ -78,7 +78,6 @@ def analyze_bdd_framework(project_path):
             'wait_strategy': 0,
             'explicit_waits': False,
             'custom_wait_conditions': False,
-            'screenshot_capability': False,
             'webdriver_management': False,
             'actions_class_usage': False,
             'javascript_executor': False
@@ -986,7 +985,6 @@ def analyze_selenium_implementation(project_path, results):
     wait_strategy = 0
     explicit_waits = False
     custom_wait_conditions = False
-    screenshot_capability = False
     webdriver_management = False
     actions_class_usage = False
     javascript_executor = False
@@ -1079,10 +1077,6 @@ def analyze_selenium_implementation(project_path, results):
                 if not thread_sleep_usage:
                     thread_sleep_usage = any(re.search(pattern, content) for pattern in patterns['thread_sleep'])
 
-                # Check screenshot capability
-                if not screenshot_capability:
-                    screenshot_capability = any(re.search(pattern, content) for pattern in patterns['screenshot'])
-
                 # Check WebDriverManager usage
                 if not webdriver_manager_usage:
                     webdriver_manager_usage = any(re.search(pattern, content) for pattern in patterns['webdriver_manager'])
@@ -1118,8 +1112,7 @@ def analyze_selenium_implementation(project_path, results):
     results['selenium_implementation']['wait_strategy'] = wait_strategy
     results['selenium_implementation']['explicit_waits'] = explicit_waits
     results['selenium_implementation']['custom_wait_conditions'] = custom_wait_conditions
-    results['selenium_implementation']['screenshot_capability'] = screenshot_capability
-    results['selenium_implementation']['webdriver_management'] = webdriver_manager_usage
+     results['selenium_implementation']['webdriver_management'] = webdriver_manager_usage
     results['selenium_implementation']['actions_class_usage'] = actions_class_usage
     results['selenium_implementation']['javascript_executor'] = javascript_executor
     results['selenium_implementation']['pico_container'] = pico_container
@@ -1212,13 +1205,6 @@ def analyze_selenium_implementation(project_path, results):
                     for pattern in selenium_patterns['custom_wait']:
                         if re.search(pattern, content):
                             custom_wait_conditions = True
-                            break
-
-                # Check for screenshot capability
-                if not screenshot_capability:
-                    for pattern in selenium_patterns['screenshot']:
-                        if re.search(pattern, content):
-                            screenshot_capability = True
                             break
 
                 # Check for WebDriver management
